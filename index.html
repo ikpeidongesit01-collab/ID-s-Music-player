@@ -11,6 +11,7 @@
 <input type="file" id="fileInput" accept="audio/*" multiple>
 
 <div class="app">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo">
@@ -59,6 +60,13 @@
   <!-- MAIN CONTENT -->
   <main class="main">
     <div class="main-header">
+      <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
       <div style="font-family:sans-serif;font-size:18px;font-weight:700">
         <span id="page-title">For You</span>
       </div>

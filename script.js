@@ -212,6 +212,62 @@ function seekTo(e) {
   if (audio.duration) audio.currentTime = pct * audio.duration;
 }
 
+// ── Sidebar toggle (mobile only) ──────────────────────────
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
+}
+
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// ── Replace your existing setTab() ────────────────────────
+function setTab(t) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  closeSidebar(); // close sidebar after nav selection on mobile
+}
+
+// ── Right panel visibility (shows only when playing) ──────
+function updateRightPanel() {
+  const panel = document.querySelector('.right-panel');
+  if (window.innerWidth <= 768) {
+    if (isPlaying && currentIndex >= 0) {
+      panel.classList.add('now-playing-active');
+    } else {
+      panel.classList.remove('now-playing-active');
+    }
+  } else {
+    // Desktop: always visible
+    panel.classList.remove('now-playing-active');
+    panel.style.display = '';
+  }
+}
+
+// ── Replace your existing updatePlayUI() ──────────────────
+function updatePlayUI() {
+  const icon = document.getElementById('playIcon');
+  const disc = document.getElementById('discSpinner');
+  const vis = document.getElementById('visBars');
+  if (isPlaying) {
+    icon.innerHTML = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
+    disc.classList.add('playing');
+    vis.classList.add('playing');
+  } else {
+    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    disc.classList.remove('playing');
+    vis.classList.remove('playing');
+  }
+  updateRightPanel();
+}
+
+// Handle resize (switching between mobile/desktop)
+window.addEventListener('resize', updateRightPanel);
+
 function setVolume(v) {
   audio.volume = v / 100;
   lastVol = v / 100;
